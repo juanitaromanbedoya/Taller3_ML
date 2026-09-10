@@ -36,5 +36,5 @@ model.fit(x, y)
 #Guardar el artefacto del modelo entrenado en un archivo
 
 BASE_DIR = Path (__file__).resolve().parent
-MODEL_PATH = BASE_DIR /"models/linear_model.joblib"
+MODEL_PATH = BASE_DIR / "models/linear_model.joblib"
 joblib.dump(model, MODEL_PATH) 
