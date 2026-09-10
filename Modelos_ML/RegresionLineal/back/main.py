@@ -26,10 +26,11 @@ def health_check():
     }
 
 @app.post("/predict")
-def predict_price(data:housem2):
+def predict(data:housem2):
     if not model:
         raise HTTPException (status_code =503, detail ="Modelo no disponible. Intente más tarde.")
-    prediction =model.predict ([[data.area_m2]])
+
+    prediction =model.predict([[data.area_m2]])[0]
 
     return{
         "area_m2": data.area_m2,
