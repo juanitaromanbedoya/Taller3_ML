@@ -1,16 +1,20 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Clave secreta solo para desarrollo local. No usar en producción.
-SECRET_KEY = "django-insecure-cambia-esta-clave-en-produccion"
+SECRET_KEY = os.environ.get("SECRET_KEY", "clave-local-desarrollo")
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
 
 # URL base de la API FastAPI de predicción de precios (Taller3)
-FASTAPI_URL = "http://127.0.0.1:8000"
+FASTAPI_URL = os.environ.get(
+    "FASTAPI_URL",
+    "http://127.0.0.1:8000"
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -65,5 +69,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

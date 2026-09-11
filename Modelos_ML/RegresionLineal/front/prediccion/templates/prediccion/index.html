@@ -2,196 +2,527 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasador de Viviendas</title>
+
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-            background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(45, 212, 191, 0.18), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.20), transparent 35%),
+                linear-gradient(135deg, #0f172a 0%, #172554 50%, #0f766e 100%);
             color: #1e293b;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 56px 16px;
-            margin: 0;
+            align-items: center;
+            padding: 30px 16px;
+            position: relative;
+            overflow-x: hidden;
         }
-        .card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 36px 32px;
-            max-width: 400px;
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 280px;
+            height: 280px;
+            background: #2dd4bf;
+            top: -100px;
+            right: -80px;
+        }
+
+        body::after {
+            width: 220px;
+            height: 220px;
+            background: #60a5fa;
+            bottom: -80px;
+            left: -70px;
+        }
+
+        .container {
             width: 100%;
-            box-shadow: 0 20px 40px rgba(30, 41, 59, 0.12);
-            text-align: center;
+            max-width: 470px;
+            position: relative;
+            z-index: 1;
         }
+
+        .card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 28px;
+            padding: 38px 36px;
+            width: 100%;
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.28),
+                0 8px 20px rgba(0, 0, 0, 0.10);
+            animation: aparecer 0.7s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
         .icon-house {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 16px;
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #2563eb, #0d9488);
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.28);
         }
+
+        .icon-house svg {
+            width: 42px;
+            height: 42px;
+            stroke: white;
+        }
+
         h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 0 0 28px;
-            color: #1e1b4b;
-            line-height: 1.25;
+            color: #0f172a;
+            font-size: 2rem;
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            margin-bottom: 10px;
         }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            max-width: 330px;
+            margin: 0 auto;
+        }
+
+        .separator {
+            width: 55px;
+            height: 4px;
+            background: linear-gradient(90deg, #2563eb, #14b8a6);
+            border-radius: 10px;
+            margin: 20px auto 28px;
+        }
+
+        form {
+            width: 100%;
+        }
+
         label {
             display: block;
-            text-align: left;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: #475569;
+            color: #334155;
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin-bottom: 9px;
         }
+
         .input-wrap {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
+
         .input-wrap svg {
             position: absolute;
-            left: 12px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #6366f1;
+            color: #2563eb;
+            pointer-events: none;
         }
+
         input[type="number"] {
             width: 100%;
-            padding: 12px 12px 12px 40px;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
+            height: 52px;
+            padding: 0 15px 0 45px;
+            border-radius: 13px;
+            border: 2px solid #e2e8f0;
             background: #f8fafc;
-            color: #1e293b;
+            color: #0f172a;
             font-size: 1rem;
+            transition: all 0.25s ease;
         }
+
+        input[type="number"]::placeholder {
+            color: #94a3b8;
+        }
+
+        input[type="number"]:hover {
+            border-color: #cbd5e1;
+            background: #ffffff;
+        }
+
         input[type="number"]:focus {
             outline: none;
-            border-color: #6366f1;
-            background: #fff;
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
         }
+
         button {
             width: 100%;
-            padding: 13px 12px;
-            border-radius: 10px;
+            height: 53px;
             border: none;
-            background: #2563eb;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #0d9488);
             color: white;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 9px;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.22);
+            transition: all 0.25s ease;
         }
+
+        button svg {
+            transition: transform 0.25s ease;
+        }
+
         button:hover {
-            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 25px rgba(37, 99, 235, 0.30);
         }
+
+        button:hover svg {
+            transform: scale(1.08);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
         .resultado {
-            margin-top: 24px;
-            padding: 18px;
-            border-radius: 12px;
-            background: #eef6f6;
-            border: 1px solid #cbe3e0;
-            text-align: left;
+            margin-top: 25px;
+            padding: 21px;
+            border-radius: 17px;
+            background: linear-gradient(135deg, #ecfdf5, #f0fdfa);
+            border: 1px solid #a7f3d0;
+            animation: resultado 0.5s ease;
         }
+
+        @keyframes resultado {
+            from {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .resultado .titulo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 8px;
+            gap: 9px;
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #047857;
+            margin-bottom: 12px;
         }
+
         .resultado .titulo svg {
-            color: #16a34a;
+            color: #10b981;
             flex-shrink: 0;
         }
+
         .resultado p {
-            margin: 0;
-            color: #334155;
-            font-size: 0.95rem;
-            line-height: 1.4;
+            color: #475569;
+            font-size: 0.94rem;
+            line-height: 1.55;
         }
-        .resultado .precio {
-            font-weight: 700;
-            color: #0f172a;
+
+        .precio {
+            display: block;
+            color: #047857;
+            font-size: 1.55rem;
+            font-weight: 800;
+            margin-top: 7px;
         }
+
         .error {
-            margin-top: 24px;
-            padding: 16px;
-            border-radius: 10px;
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #b91c1c;
-            font-size: 0.9rem;
-            text-align: left;
+            margin-top: 22px;
+            padding: 16px 18px;
+            border-radius: 14px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #be123c;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            animation: aparecer 0.4s ease;
+        }
+
+        .info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            margin-top: 22px;
+            color: #94a3b8;
+            font-size: 0.78rem;
+            text-align: center;
+        }
+
+        .info svg {
+            color: #14b8a6;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 20px 14px;
+            }
+
+            .card {
+                padding: 30px 23px;
+                border-radius: 23px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .icon-house {
+                width: 68px;
+                height: 68px;
+                border-radius: 19px;
+            }
+
+            .icon-house svg {
+                width: 37px;
+                height: 37px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="card">
-        <div class="icon-house">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9.5 12 3l9 6.5"></path>
-                <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"></path>
-            </svg>
-        </div>
 
-        <h1>Tasador de<br>Viviendas</h1>
+    <main class="container">
 
-        <form method="post">
-            {% csrf_token %}
-            <label for="area_m2">Área de la vivienda (m²)</label>
-            <div class="input-wrap">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 3 3 21"></path>
-                    <path d="m16 8 2 2"></path>
-                    <path d="m12 12 2 2"></path>
-                    <path d="m8 16 2 2"></path>
-                </svg>
-                <input
-                    type="number"
-                    id="area_m2"
-                    name="area_m2"
-                    step="0.1"
-                    min="0.1"
-                    placeholder="Ej: 85.5"
-                    value="{{ area_ingresada|default:'' }}"
-                    required
+        <section class="card">
+
+            <div class="header">
+
+                <div class="icon-house">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M3 10.5 12 3l9 7.5"></path>
+                        <path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"></path>
+                        <path d="M9 21v-6h6v6"></path>
+                    </svg>
+                </div>
+
+                <h1>Tasador de Viviendas</h1>
+
+                <p class="subtitle">
+                    Estima el valor de una vivienda de forma rápida
+                    utilizando su área en metros cuadrados.
+                </p>
+
+                <div class="separator"></div>
+
+            </div>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <label for="area_m2">
+                    Área de la vivienda
+                </label>
+
+                <div class="input-wrap">
+
+                    <svg
+                        width="19"
+                        height="19"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M21 3 3 21"></path>
+                        <path d="m16 8 2 2"></path>
+                        <path d="m12 12 2 2"></path>
+                        <path d="m8 16 2 2"></path>
+                    </svg>
+
+                    <input
+                        type="number"
+                        id="area_m2"
+                        name="area_m2"
+                        step="0.1"
+                        min="0.1"
+                        placeholder="Ej: 85.5 m²"
+                        value="{{ area_ingresada|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+                <button type="submit">
+
+                    <svg
+                        width="19"
+                        height="19"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+                        <path d="M8 8h8"></path>
+                        <path d="M8 12h8"></path>
+                        <path d="M8 16h5"></path>
+                    </svg>
+
+                    Calcular precio
+
+                </button>
+
+            </form>
+
+            {% if resultado %}
+
+            <div class="resultado">
+
+                <div class="titulo">
+
+                    <svg
+                        width="21"
+                        height="21"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+
+                    Predicción exitosa
+
+                </div>
+
+                <p>
+                    Para una vivienda de
+                    <strong>{{ resultado.area_m2 }} m²</strong>,
+                    el valor estimado es:
+                </p>
+
+                <span class="precio" id="precio">
+                    ${{ resultado.predicted_price }}
+                </span>
+
+            </div>
+
+            {% endif %}
+
+            {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+            <div class="info">
+
+                <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 >
-            </div>
-            <button type="submit">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="4" y="3" width="16" height="18" rx="2"></rect>
-                    <path d="M8 8h8M8 12h8M8 16h5"></path>
-                </svg>
-                Calcular Precio
-            </button>
-        </form>
-
-        {% if resultado %}
-        <div class="resultado">
-            <div class="titulo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
                 </svg>
-                Predicción Exitosa
-            </div>
-            <p>
-                Una vivienda de {{ resultado.area_m2 }} m² tiene un valor estimado de:
-                <span class="precio">${{ resultado.predicted_price }}</span>
-            </p>
-        </div>
-        {% endif %}
 
-        {% if error %}
-        <div class="error">{{ error }}</div>
-        {% endif %}
-    </div>
+                Predicción generada mediante un modelo de Machine Learning
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FORMATEAR PRECIO EN PESOS COLOMBIANOS -->
+    <script>
+        const precio = document.getElementById("precio");
+
+        if (precio) {
+
+            let texto = precio.textContent.trim();
+
+            // Quitamos el símbolo $
+            texto = texto.replace("$", "").trim();
+
+            // Convertimos el número a formato estándar
+            // Ejemplo: 501245980,99 -> 501245980.99
+            texto = texto.replace(",", ".");
+
+            const valor = Number(texto);
+
+            if (!isNaN(valor)) {
+
+                precio.textContent = valor.toLocaleString("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+            }
+        }
+    </script>
+
 </body>
 </html>
