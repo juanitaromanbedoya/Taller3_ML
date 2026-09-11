@@ -10,6 +10,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://taller3ml-production-7bf5.up.railway.app",
+]
+
 # URL base de la API FastAPI de predicción de precios (Taller3)
 FASTAPI_URL = os.environ.get(
     "FASTAPI_URL",
