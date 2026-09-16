@@ -55,7 +55,7 @@ Este proyecto implementa algoritmos de Visión Artificial para detección de ros
 
 ## 🌐 Enlaces de Producción (Vercel)
 El sistema se encuentra desplegado y accesible en línea a través de Vercel:
-* **Enlace de Producción:** [https://tu-proyecto.vercel.app](https://tu-proyecto.vercel.app) *(Reemplaza con tu URL real de Vercel si aplica)*
+Enlace del delpliegue: taller3-ml.vercel.app
 
 ---
 
