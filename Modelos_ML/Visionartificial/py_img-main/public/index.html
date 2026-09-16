@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Visión Artificial | Detección de Rostros</title>
+
+    <link rel="shortcut icon" href="logosena.png" type="image/x-icon">
+
+    <meta name="author" content="Carlos Andres Castro Jaramillo">
+    <meta name="description"
+        content="Aplicación de visión artificial para detectar rostros en imágenes y video en tiempo real.">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         DECORACIÓN SUPERIOR
+    ========================================== -->
+
+    <div class="top-decoration">
+        <span>♡</span>
+        <span>✦</span>
+        <span>♡</span>
+        <span>✧</span>
+        <span>♡</span>
+    </div>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="main-header">
+
+        <div class="container">
+
+            <div class="header-content">
+
+                <div class="header-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+
+                <div>
+                    <p class="header-label">VISIÓN ARTIFICIAL</p>
+
+                    <h1>
+                        Detección de Rostros
+                    </h1>
+
+                    <p class="header-description">
+                        Analiza imágenes o utiliza tu cámara para detectar rostros
+                        de manera rápida y sencilla.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+
+    <main class="container main-content">
+
+        <!-- =====================================
+             SELECTOR DE MODO
+        ====================================== -->
+
+        <section class="mode-selector">
+
+            <p class="section-label">
+                <i class="bi bi-magic"></i>
+                ELIGE UNA OPCIÓN
+            </p>
+
+            <div class="mode-buttons" role="group" aria-label="Selector de modo de entrada">
+
+                <button
+                    type="button"
+                    id="btnModeUpload"
+                    class="mode-button active">
+
+                    <i class="bi bi-image"></i>
+
+                    <span>Subir imagen</span>
+
+                </button>
+
+                <button
+                    type="button"
+                    id="btnModeCamera"
+                    class="mode-button">
+
+                    <i class="bi bi-camera"></i>
+
+                    <span>Usar cámara</span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             ZONA PRINCIPAL
+        ====================================== -->
+
+        <div class="row g-4">
+
+
+            <!-- =================================
+                 COLUMNA IZQUIERDA
+            ================================== -->
+
+            <div class="col-lg-5">
+
+                <!-- =============================
+                     SECCIÓN SUBIR ARCHIVO
+                ============================== -->
+
+                <section
+                    id="sectionUpload"
+                    class="main-card upload-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                        </div>
+
+                        <div>
+                            <h2>Sube tu imagen</h2>
+
+                            <p>
+                                Selecciona una fotografía para analizarla.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- DROP ZONE -->
+
+                    <div
+                        id="dropZone"
+                        class="drop-zone">
+
+                        <div class="drop-decoration">
+                            <i class="bi bi-image"></i>
+                        </div>
+
+                        <h3>
+                            Arrastra tu imagen aquí
+                        </h3>
+
+                        <p>
+                            o haz clic para buscarla en tu dispositivo
+                        </p>
+
+                        <span class="file-info">
+                            <i class="bi bi-file-earmark-image"></i>
+                            JPG, PNG, WEBP
+                        </span>
+
+                        <input
+                            type="file"
+                            id="fileInput"
+                            class="drop-zone-input"
+                            accept="image/*"
+                            aria-label="Seleccionar imagen">
+
+                    </div>
+
+
+                    <!-- BOTÓN PROCESAR -->
+
+                    <button
+                        id="btnProcess"
+                        class="main-button process-button"
+                        disabled>
+
+                        <i class="bi bi-stars"></i>
+
+                        <span>Procesar imagen</span>
+
+                    </button>
+
+                </section>
+
+
+                <!-- =============================
+                     SECCIÓN CÁMARA
+                ============================== -->
+
+                <section
+                    id="sectionCamera"
+                    class="main-card camera-card d-none">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">
+                            <i class="bi bi-camera-video"></i>
+                        </div>
+
+                        <div>
+                            <h2>Cámara en vivo</h2>
+
+                            <p>
+                                Utiliza tu cámara para detectar rostros.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- CÁMARA -->
+
+                    <div class="camera-container">
+
+                        <video
+                            id="webcam"
+                            autoplay
+                            playsinline
+                            muted>
+                        </video>
+
+                        <canvas
+                            id="canvasFrame"
+                            width="400"
+                            height="300"
+                            class="d-none">
+                        </canvas>
+
+                        <div class="camera-overlay">
+
+                            <span class="camera-status">
+                                <span class="status-dot"></span>
+                                Cámara
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONTROLES -->
+
+                    <div class="camera-controls">
+
+                        <button
+                            id="btnStartCamera"
+                            class="camera-button start-camera">
+
+                            <i class="bi bi-camera-video"></i>
+
+                            <span>Encender cámara</span>
+
+                        </button>
+
+
+                        <button
+                            id="btnToggleCamera"
+                            class="camera-button switch-camera"
+                            style="display: none;">
+
+                            <i class="bi bi-arrow-repeat"></i>
+
+                            <span>Cambiar cámara</span>
+
+                        </button>
+
+
+                        <button
+                            id="btnStopCamera"
+                            class="camera-button stop-camera"
+                            disabled>
+
+                            <i class="bi bi-stop-circle"></i>
+
+                            <span>Apagar cámara</span>
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================
+                 COLUMNA DERECHA
+            ================================== -->
+
+            <div class="col-lg-7">
+
+                <section class="main-card results-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon result-icon">
+                            <i class="bi bi-person-bounding-box"></i>
+                        </div>
+
+                        <div>
+                            <h2>Resultado del análisis</h2>
+
+                            <p>
+                                Aquí aparecerá la imagen procesada.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                         MÉTRICAS
+                    ========================== -->
+
+                    <div
+                        id="metricsZone"
+                        class="result-alert d-none"
+                        role="alert">
+
+                        <div class="result-alert-icon">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+
+                        <div class="result-text">
+
+                            <span class="result-label">
+                                ANÁLISIS COMPLETADO
+                            </span>
+
+                            <p>
+                                Rostros detectados en la escena
+                            </p>
+
+                        </div>
+
+                        <span
+                            id="faceCount"
+                            class="face-count">
+                            0
+                        </span>
+
+                    </div>
+
+
+                    <!-- =========================
+                         RESULTADOS
+                    ========================== -->
+
+                    <div class="results-grid">
+
+                        <!-- IMAGEN ORIGINAL -->
+
+                        <div
+                            id="boxOriginal"
+                            class="result-box">
+
+                            <div class="image-panel">
+
+                                <div class="image-panel-header">
+
+                                    <h3>
+                                        <i class="bi bi-image"></i>
+                                        Imagen original
+                                    </h3>
+
+                                    <span class="panel-badge">
+                                        ORIGEN
+                                    </span>
+
+                                </div>
+
+                                <div class="image-container">
+
+                                    <div class="empty-image">
+                                        <i class="bi bi-image"></i>
+                                        <span>Vista previa</span>
+                                    </div>
+
+                                    <img
+                                        id="imgOriginal"
+                                        src=""
+                                        alt="Vista previa de la imagen"
+                                        class="result-image d-none">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- RESULTADO -->
+
+                        <div class="result-box">
+
+                            <div class="image-panel">
+
+                                <div class="image-panel-header">
+
+                                    <h3>
+                                        <i class="bi bi-stars"></i>
+                                        Detección
+                                    </h3>
+
+                                    <span class="panel-badge result-badge">
+                                        RESULTADO
+                                    </span>
+
+                                </div>
+
+                                <div class="image-container">
+
+                                    <div class="empty-image">
+                                        <i class="bi bi-stars"></i>
+                                        <span>Esperando análisis</span>
+                                    </div>
+
+                                    <img
+                                        id="imgResult"
+                                        src=""
+                                        alt="Resultado de detección de rostros"
+                                        class="result-image d-none">
+
+
+                                    <!-- LOADER -->
+
+                                    <div
+                                        id="loader"
+                                        class="custom-loader d-none"
+                                        role="status">
+
+                                        <div class="loader-circle"></div>
+
+                                        <span>
+                                            Analizando imagen...
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MENSAJE INFORMATIVO -->
+
+                    <div class="info-message">
+
+                        <i class="bi bi-lightbulb"></i>
+
+                        <p>
+                            La imagen procesada mostrará los rostros detectados
+                            mediante visión artificial.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="main-footer">
+
+        <div class="container">
+
+            <div class="footer-content">
+
+                <div class="footer-brand">
+
+                    <div class="footer-icon">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            Visión Artificial
+                        </strong>
+
+                        <span>
+                            Python & Machine Learning
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="footer-line"></div>
+
+                <p>
+                    © 2026 · Proyecto académico
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- Bootstrap JS -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NDzOxhy9GkcGCC5P0t5X8P6h8M7h6XJ5X1X"
+        crossorigin="anonymous">
+    </script>
+
+    <!-- JavaScript propio -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
